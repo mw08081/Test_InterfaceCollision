@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, IPlayer
         Move();
         Attack();
 
-        InteractionF();
+        RayCastCheck();
     }
 
     public void Move()
@@ -43,26 +43,28 @@ public class Player : MonoBehaviour, IPlayer
 
     }
 
-    public void InteractionF()
+    public void RayCastCheck()
     {
         RaycastHit hitInfo;
-        //Debug.DrawLine(Camera.main.transform.position, new Vector3(0, 0, 5f), Color.red, 0.1f);
 
-        if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitInfo, 2f))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitInfo, 2f))
         {
-            if(hitInfo.collider.GetComponent<IOpenable>() is IOpenable)
+            if (hitInfo.collider.GetComponent<IOpenable>() is IOpenable)
             {
                 Debug.Log("u can Interact, Interact use 'F'");
-
-                if (Input.GetKey(KeyCode.F) && CanInteraction)
-                {
-                    CanInteraction = false;
-                    Open(hitInfo.collider.GetComponent<IOpenable>());
-                }
+                InteractionF(hitInfo);
             }
         }
-    }    
+    }
 
+    public void InteractionF(RaycastHit hitInfo)
+    {
+        if (Input.GetKey(KeyCode.F) && CanInteraction)
+        {
+            CanInteraction = false;
+            Open(hitInfo.collider.GetComponent<IOpenable>());
+        }
+    }
 
     void Open(IOpenable openTarget)
     {

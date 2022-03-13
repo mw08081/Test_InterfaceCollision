@@ -8,5 +8,5 @@ interface IPlayer
 
     void Move();
     void Attack();
-    void InteractionF();
+    void InteractionF(RaycastHit hitInfo);
 }
